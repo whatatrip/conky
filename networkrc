@@ -41,6 +41,8 @@ Locale: ${alignr} ${execi 6000 curl ipinfo.io/city}, ${execi 6000 curl ipinfo.io
 #${alignr} ${execi 6000 curl ipinfo.io/loc}
 Local IP: ${alignr} ${addr wlp3s0}
 Public IP: ${alignr} ${execi 600 wget http://ipinfo.io/ip -qO -}
+WIFI: ${alignr} ${wireless_essid wlp3s0}
+Signal Strength: ${alignr} ${execi 5 iwconfig wlp3s0 | awk '/Link Quality/{split($2,a,"-|/";print int((a[2]/a[3])*100)"%"}'}
 #Total connections: ${alignr}${tcp_portmon 1 65535 count}
 Ping to 192.168.1.1: $alignr ${texeci 15 output=$(ping -c 10 192.168.1.1); avg=$(printf "%0.1f" `echo $output | awk -F '/' 'END {print $5}'` | sed 's/,/./'); mdev=$(printf "%0.1f" `echo $output | awk -F '/' 'END {print $7}' | sed 's/ .*//'` | sed 's/,/./'); echo $avg ± $mdev ms}
 Ping to 8.8.8.8: $alignr ${texeci 15 output=$(ping -c 10 8.8.8.8); avg=$(printf "%0.1f" `echo $output | awk -F '/' 'END {print $5}'` | sed 's/,/./'); mdev=$(printf "%0.1f" `echo $output | awk -F '/' 'END {print $7}' | sed 's/ .*//'` | sed 's/,/./'); echo $avg ± $mdev ms}
